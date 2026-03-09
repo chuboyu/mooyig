@@ -41,7 +41,13 @@
       letter-spacing: -0.01em;
     }
     nav .logo span { color: var(--cyan); }
-    nav .nav-ctas { display: flex; gap: .75rem; }
+    nav .nav-ctas { display: flex; gap: .75rem; flex-shrink: 0; }
+    @media(max-width: 540px) {
+      nav { padding: 0 1rem; }
+      nav .logo { font-size: .85rem; }
+      nav .nav-ctas { gap: .4rem; }
+      nav .nav-ctas .btn { padding: .45rem .75rem; font-size: .78rem; }
+    }
     .btn {
       display: inline-block; padding: .55rem 1.25rem;
       border-radius: 6px; font-size: .875rem; font-weight: 600;
@@ -560,7 +566,8 @@
       </div>
       <div class="modal-actions">
         <button type="button" class="btn btn-outline" onclick="closeModal()">Cancel</button>
-        <button type="submit" class="btn btn-primary">&#9993; Open in Mail App</button>
+        <button type="button" class="btn btn-outline" onclick="copyRequest()">&#128203; Copy Info</button>
+        <button type="submit" class="btn btn-primary">&#9993; Send in Mail App</button>
       </div>
     </form>
   </div>
@@ -584,21 +591,21 @@
 
   function v(id) { return document.getElementById(id).value.trim(); }
 
-  function submitForm(e) {
-    e.preventDefault();
-    const name     = v('f-name');
-    const email    = v('f-email');
+  function buildBody() {
+    const name     = v('f-name')       || '(not filled)';
+    const email    = v('f-email')      || '(not filled)';
     const company  = v('f-company')    || 'N/A';
     const industry = v('f-industry')   || 'N/A';
     const team     = v('f-team')       || 'N/A';
     const engage   = v('f-engagement') || 'N/A';
     const timeline = v('f-timeline')   || 'N/A';
     const budget   = v('f-budget')     || 'N/A';
-    const desc     = v('f-desc');
+    const desc     = v('f-desc')       || '(not filled)';
+    return { name, email, company, industry, team, engage, timeline, budget, desc };
+  }
 
-    const subject = `Preliminary Request — ${name}${company !== 'N/A' ? ' @ ' + company : ''}`;
-    const body =
-`Hi Boyu,
+  function formatBody({ name, email, company, industry, team, engage, timeline, budget, desc }) {
+    return `Hi Boyu,
 
 I'd like to submit a preliminary request. Here's my situation:
 
@@ -621,8 +628,28 @@ ${desc}
 Looking forward to hearing from you.
 
 ${name}`;
+  }
 
-    window.location.href = `mailto:contact@chuboyu.tw?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  function copyRequest() {
+    const fields = buildBody();
+    const text = `To: contact@chuboyu.tw
+Subject: Preliminary Request — ${fields.name}${fields.company !== 'N/A' ? ' @ ' + fields.company : ''}
+
+${formatBody(fields)}`;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('[onclick="copyRequest()"]');
+      const orig = btn.innerHTML;
+      btn.innerHTML = '&#10003; Copied!';
+      btn.disabled = true;
+      setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; }, 2500);
+    });
+  }
+
+  function submitForm(e) {
+    e.preventDefault();
+    const fields = buildBody();
+    const subject = `Preliminary Request — ${fields.name}${fields.company !== 'N/A' ? ' @ ' + fields.company : ''}`;
+    window.location.href = `mailto:contact@chuboyu.tw?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(formatBody(fields))}`;
   }
 </script>
 
