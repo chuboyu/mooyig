@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Boyu Tech Strategy Office</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #141d2e;
+      --surface:  #1b2640;
+      --border:   #243050;
+      --cyan:     #38bdf8;
+      --cyan-dim: #1e8ab0;
+      --text:     #e2e8f0;
+      --muted:    #7a8aaa;
+      --danger:   #ef4444;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(20, 29, 46, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 60px;
+    }
+    nav .logo {
+      font-weight: 700; font-size: 1rem; color: var(--text);
+      letter-spacing: -0.01em;
+    }
+    nav .logo span { color: var(--cyan); }
+    nav .nav-ctas { display: flex; gap: .75rem; }
+    .btn {
+      display: inline-block; padding: .55rem 1.25rem;
+      border-radius: 6px; font-size: .875rem; font-weight: 600;
+      text-decoration: none; cursor: pointer; border: none;
+      transition: opacity .2s, transform .1s;
+    }
+    .btn:hover { opacity: .85; transform: translateY(-1px); }
+    .btn-primary { background: var(--cyan); color: #0a1628; }
+    .btn-outline {
+      background: transparent; color: var(--cyan);
+      border: 1px solid var(--cyan);
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 5rem 1.5rem; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .section-label {
+      font-size: .75rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--cyan); margin-bottom: 1rem;
+    }
+    h1 { font-size: clamp(2.2rem, 6vw, 3.5rem); font-weight: 800; line-height: 1.1; }
+    h2 { font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 800; line-height: 1.15; }
+    h3 { font-size: 1.1rem; font-weight: 700; color: var(--cyan); margin-bottom: .5rem; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 90vh; display: flex; align-items: center;
+      background: radial-gradient(ellipse 80% 60% at 50% -10%, #1e3a5f55, transparent);
+      border-bottom: 1px solid var(--border);
+    }
+    #hero .container { max-width: 760px; }
+    #hero .accent-bar {
+      width: 52px; height: 4px; background: var(--cyan);
+      border-radius: 2px; margin-bottom: 2rem;
+    }
+    #hero p.sub {
+      font-size: 1.15rem; color: var(--muted); margin: 1.25rem 0 2rem;
+      font-style: italic; max-width: 560px;
+    }
+    .tag-row { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2.5rem; }
+    .tag {
+      padding: .25rem .75rem; border-radius: 999px;
+      border: 1px solid var(--border); font-size: .78rem; color: var(--muted);
+    }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: 1rem; }
+
+    /* ── PROBLEM ── */
+    #problem { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+    @media(max-width:640px){ .problem-grid { grid-template-columns: 1fr; } }
+    .problem-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.5rem;
+    }
+    .problem-card .label {
+      display: inline-block; background: var(--danger); color: #fff;
+      font-size: .7rem; font-weight: 700; padding: .15rem .5rem;
+      border-radius: 4px; margin-bottom: .75rem; text-transform: uppercase;
+    }
+    .problem-card h3 { color: var(--text); }
+    .problem-card p { color: var(--muted); font-size: .9rem; margin-top: .25rem; }
+    .insight-box {
+      margin-top: 2rem; border: 1px solid var(--cyan-dim);
+      border-radius: 10px; padding: 1.5rem; background: rgba(56,189,248,.05);
+    }
+    .insight-box p { color: var(--text); }
+    .insight-box strong { color: var(--cyan); }
+
+    /* ── HOW ── */
+    #how .checklist { list-style: none; margin-top: 1.75rem; display: flex; flex-direction: column; gap: 1.1rem; }
+    #how .checklist li {
+      display: flex; gap: 1rem; align-items: flex-start;
+    }
+    #how .checklist li .icon {
+      flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+      background: var(--cyan); color: #0a1628;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem; font-weight: 800; margin-top: .15rem;
+    }
+    #how .checklist li div strong { color: var(--text); }
+    #how .checklist li div span { color: var(--muted); font-size: .9rem; display: block; }
+
+    /* ── SERVICES ── */
+    #services { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-top: 2rem; }
+    .card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.75rem 1.5rem;
+      display: flex; flex-direction: column; gap: .75rem;
+    }
+    .card p { color: var(--muted); font-size: .9rem; flex: 1; }
+    .card .note { font-size: .78rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: .75rem; font-style: italic; }
+
+    /* ── PRICING ── */
+    .pricing-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; margin-top: 2rem; }
+    .price-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 2rem 1.5rem; text-align: center;
+    }
+    .price-card .price {
+      font-size: 2rem; font-weight: 800; color: var(--cyan);
+      border: 1px dashed var(--cyan-dim); border-radius: 8px;
+      padding: .4rem 1rem; display: inline-block; margin: .75rem 0;
+    }
+    .price-card p { color: var(--muted); font-size: .875rem; }
+    .price-card .note { font-size: .75rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: .75rem; margin-top: 1rem; font-style: italic; text-align: left; }
+    .price-card .btn { margin-top: 1.25rem; width: 100%; text-align: center; }
+
+    /* ── INDUSTRIES ── */
+    #industries { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .industry-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 2rem; }
+    .industry-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.5rem 1rem; text-align: center;
+    }
+    .industry-card .icon { font-size: 1.75rem; margin-bottom: .75rem; }
+    .industry-card h3 { font-size: .95rem; margin-bottom: .4rem; }
+    .industry-card p { color: var(--muted); font-size: .8rem; }
+
+    /* ── STRENGTHS ── */
+    #strengths .strength-list { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 2rem; max-width: 640px; }
+    .strength-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .strength-item .dot {
+      flex-shrink: 0; width: 10px; height: 10px; border-radius: 50%;
+      background: var(--cyan); margin-top: .45rem;
+    }
+    .strength-item p { color: var(--muted); font-size: .95rem; }
+    .strength-item p strong { color: var(--text); }
+
+    /* ── CTA BANNER ── */
+    #cta-banner {
+      background: linear-gradient(135deg, #1b2f50, #142040);
+      border-top: 1px solid var(--border);
+      text-align: center; padding: 5rem 1.5rem;
+    }
+    #cta-banner h2 { margin-bottom: .75rem; }
+    #cta-banner p { color: var(--muted); margin-bottom: 2.5rem; font-size: 1.05rem; }
+    #cta-banner .cta-btns { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+    #cta-banner .btn-lg { padding: .85rem 2.25rem; font-size: 1rem; border-radius: 8px; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 2rem 1rem;
+      border-top: 1px solid var(--border); color: var(--muted); font-size: .82rem;
+    }
+    footer a { color: var(--cyan); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Boyu <span>Tech Strategy</span></div>
+  <div class="nav-ctas">
+    <a class="btn btn-outline" href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3nirHONfHOvuOy1M0z1z5hi7QLwGvcMGeODgtDULztNFR2Xkmm3NELS1G-7DaXgjz8FXIpLXxs?gv=true" target="_blank" rel="noopener">Pre-Book a Call</a>
+    <a class="btn btn-primary" href="#contact">Get in Touch</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="accent-bar"></div>
+    <h1>We escort teams<br>through early messes.</h1>
+    <p class="sub">For high-growth SMBs &amp; Startups building the engine mid-air, we provide pragmatic technical guidance.</p>
+    <div class="tag-row">
+      <span class="tag">&lt;/&gt; AI &amp; ML</span>
+      <span class="tag">&#127968; Fintech</span>
+      <span class="tag">&#9889; Energy</span>
+      <span class="tag">&#127981; Manufacture</span>
+      <span class="tag">&#128202; AdTech</span>
+    </div>
+    <div class="hero-ctas">
+      <a class="btn btn-primary btn-lg" href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3nirHONfHOvuOy1M0z1z5hi7QLwGvcMGeODgtDULztNFR2Xkmm3NELS1G-7DaXgjz8FXIpLXxs?gv=true" target="_blank" rel="noopener">&#128197; Pre-Book a Free Discovery Call</a>
+      <a class="btn btn-outline btn-lg" href="#services">See What We Do</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="container">
+    <div class="section-label">The Problem</div>
+    <h2>More People &ne; More Outcome</h2>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <span class="label">Trap 1</span>
+        <h3>Spaghetti Code</h3>
+        <p>Vibe coding with AI and zero structural design. Fragile systems that break on every change.</p>
+      </div>
+      <div class="problem-card">
+        <span class="label">Trap 2</span>
+        <h3>Over-Engineering</h3>
+        <p>"Google-scale" infrastructure for 10 users. Burned runway and complexity nobody needs.</p>
+      </div>
+    </div>
+    <div class="insight-box">
+      <p>&#128161; <strong>Brooks's Law:</strong> Adding manpower to a late software project makes it later. Having <strong>right frameworks before scaling</strong> lets 3 people outperform a 20-member team.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section id="how">
+  <div class="container">
+    <div class="section-label">Our Approach</div>
+    <h2>Build Adaptability First,<br>Not Just Scale</h2>
+    <ul class="checklist">
+      <li>
+        <div class="icon">&#10003;</div>
+        <div>
+          <strong>Speed &amp; Quality</strong>
+          <span>Solid data foundations (skeleton) + upgradable prototypes (muscles) for fastest market testing.</span>
+        </div>
+      </li>
+      <li>
+        <div class="icon">&#10003;</div>
+        <div>
+          <strong>Adaptive Planning</strong>
+          <span>Modularized roadmaps with checkpoints. Halt or pivot with maximum flexibility for resource control.</span>
+        </div>
+      </li>
+      <li>
+        <div class="icon">&#10003;</div>
+        <div>
+          <strong>Pin-Point Upgrades</strong>
+          <span>We spot hidden bottlenecks and tipping points before they become dragging forces.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="section-label">Services</div>
+    <h2>Apprehend. Adapt. Scale.</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Pathfinding &amp; Prototypes</h3>
+        <p>Explore unfamiliar fields. Build prototypes to verify possibilities. Design frameworks to adapt future scale-up.</p>
+        <div class="note">Startups &amp; web3: full or partial payment in shares, options, or tokens are discussable.</div>
+      </div>
+      <div class="card">
+        <h3>Plans, Pitches &amp; Roadmaps</h3>
+        <p>Derive tech plans from business goals. Ensure roadmap flexibility and feasibility. Create living documents for pitches.</p>
+        <div class="note">Default: 10 hrs work including &lt;5 hrs meeting monthly.</div>
+      </div>
+      <div class="card">
+        <h3>Legacy Refresh &amp; Team</h3>
+        <p>Dismantle hidden bombs, revive outdated systems. Build high-agency teams to face future challenges.</p>
+        <div class="note">"Guided exploration" is a valid engagement — clear goals, flexible objectives.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-label">Pricing</div>
+    <h2>Transparent. Flexible.</h2>
+    <div class="pricing-cards">
+      <div class="price-card">
+        <h3>Hourly Advisory</h3>
+        <div class="price">$400 / hr</div>
+        <p>Ad-hoc problem solving, code reviews, and architectural sanity checks for specific hurdles.</p>
+        <div class="note">Startups &amp; web3: equity / token arrangements discussable.</div>
+        <a class="btn btn-outline" href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ1Hnt2H7elTyWTDyBO7ftlA4I1y1X0l7afOPftbqevAPmxroHa-qg1YX4zhFGpUrL-LFY9qYXI0?gv=true" target="_blank" rel="noopener">&#128197; Book a Session</a>
+      </div>
+      <div class="price-card">
+        <h3>Monthly Retainer</h3>
+        <div class="price">$2,000 / mo</div>
+        <p>Ongoing roadmap oversight, system architecture, team leadership, and hiring support.</p>
+        <div class="note">10 hrs work including &lt;5 hrs meeting monthly.</div>
+        <a class="btn btn-outline" href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3nirHONfHOvuOy1M0z1z5hi7QLwGvcMGeODgtDULztNFR2Xkmm3NELS1G-7DaXgjz8FXIpLXxs?gv=true" target="_blank" rel="noopener">&#128197; Book a Discovery Call</a>
+      </div>
+      <div class="price-card">
+        <h3>Project Based</h3>
+        <div class="price">Custom Quote</div>
+        <p>Specific MVP builds, deep system audits, legacy fixes, AI-generated mess cleanup, pathfinding.</p>
+        <div class="note">Requires clear goal alignment — even "guided exploration" is a valid starting point.</div>
+        <a class="btn btn-primary" id="contact" href="mailto:contact@chuboyu.tw?subject=Project%20Inquiry%20%E2%80%94%20Boyu%20Tech%20Strategy&body=Hi%20Boyu%2C%0A%0AHere%27s%20a%20quick%20overview%20of%20what%20we%27re%20looking%20for%3A%0A%0ACompany%2FProject%3A%20%0AIndustry%3A%20%0AWhat%20we%20need%20help%20with%3A%20%0ATimeline%3A%20%0ABudget%20range%20(or%20equity%20arrangement)%3A%20%0AAnything%20else%3A%20%0A%0ALooking%20forward%20to%20hearing%20from%20you.">&#9993; Request a Quote</a>
+      </div>
+    </div>
+    <p style="font-size:.78rem;color:var(--muted);margin-top:1.25rem;text-align:right;">All costs shown in U.S. Dollars.</p>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section id="industries">
+  <div class="container">
+    <div class="section-label">Industry Coverage</div>
+    <h2>We Know Your Field</h2>
+    <div class="industry-grid">
+      <div class="industry-card">
+        <div class="icon">&#129504;</div>
+        <h3>AI &amp; ML</h3>
+        <p>Cutting-edge models into practical business workflows.</p>
+      </div>
+      <div class="industry-card">
+        <div class="icon">&#128202;</div>
+        <h3>AdTech &amp; Software</h3>
+        <p>High-volume, high-speed systems where latency equals lost revenue.</p>
+      </div>
+      <div class="industry-card">
+        <div class="icon">&#9889;</div>
+        <h3>Energy &amp; Hardware</h3>
+        <p>Complex integrations between physical grids and digital tracking.</p>
+      </div>
+      <div class="industry-card">
+        <div class="icon">&#127968;</div>
+        <h3>Banking &amp; Fintech</h3>
+        <p>Secure, compliant architectures for legacy and modern fintech.</p>
+      </div>
+      <div class="industry-card">
+        <div class="icon">&#128260;</div>
+        <h3>Legacy Rescue</h3>
+        <p>Refactoring spaghetti systems without stopping the business.</p>
+      </div>
+      <div class="industry-card">
+        <div class="icon">&#128640;</div>
+        <h3>Startups</h3>
+        <p>Navigating the Goldilocks Zone of early-stage system design.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STRENGTHS -->
+<section id="strengths">
+  <div class="container">
+    <div class="section-label">Why Us</div>
+    <h2>We Stay Clairvoyant</h2>
+    <p style="color:var(--muted);margin-top:.75rem;">Many experts chase "perfect setup." Most pioneers chase "impact." We do neither — we escort teams through the mess.</p>
+    <div class="strength-list">
+      <div class="strength-item">
+        <div class="dot"></div>
+        <p><strong>Comprehensive View</strong> — Best framework for each custom scenario. We know what needs to be built now vs. later.</p>
+      </div>
+      <div class="strength-item">
+        <div class="dot"></div>
+        <p><strong>No Blocking</strong> — We balance business goals with tech quality. We never stop shipping just for "clean code."</p>
+      </div>
+      <div class="strength-item">
+        <div class="dot"></div>
+        <p><strong>Pin-Point Prevention</strong> — We identify the 20% of work that prevents 80% of future technical debt.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section id="cta-banner">
+  <div class="container">
+    <h2>Let's Build Right.</h2>
+    <p>Stop choosing between "Broken" and "Costly."<br>Ready to map your flight?</p>
+    <div class="cta-btns">
+      <a class="btn btn-primary btn-lg"
+         href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3nirHONfHOvuOy1M0z1z5hi7QLwGvcMGeODgtDULztNFR2Xkmm3NELS1G-7DaXgjz8FXIpLXxs?gv=true"
+         target="_blank" rel="noopener">
+        &#128197; Pre-Book a Discovery Call
+      </a>
+      <a class="btn btn-outline btn-lg"
+         href="mailto:contact@chuboyu.tw?subject=Initial%20Inquiry%20%E2%80%94%20Boyu%20Tech%20Strategy&body=Hi%20Boyu%2C%0A%0AHere%27s%20a%20quick%20summary%20of%20our%20situation%3A%0A%0ACompany%2FProject%20name%3A%20%0AIndustry%3A%20%0ATeam%20size%3A%20%0AChallenge%20or%20goal%3A%20%0APreferred%20engagement%20type%20(Hourly%20%2F%20Retainer%20%2F%20Project)%3A%20%0ATimeline%3A%20%0ABudget%20or%20equity%20arrangement%3A%20%0A%0ALooking%20forward%20to%20connecting.">
+        &#9993; Send a Preliminary Request
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2025 Boyu Tech Strategy Office &nbsp;&middot;&nbsp;
+    <a href="mailto:contact@chuboyu.tw">contact@chuboyu.tw</a> &nbsp;&middot;&nbsp;
+    <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3nirHONfHOvuOy1M0z1z5hi7QLwGvcMGeODgtDULztNFR2Xkmm3NELS1G-7DaXgjz8FXIpLXxs?gv=true" target="_blank" rel="noopener">Book a Call</a>
+  </p>
+</footer>
+
+</body>
+</html>
