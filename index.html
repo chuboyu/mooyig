@@ -200,7 +200,91 @@
     }
     footer a { color: var(--cyan); text-decoration: none; }
 
-    /* ── MODAL ── */
+    /* ── BOOKING MODAL ── */
+    #book-overlay {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      background: rgba(10,16,30,.85); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center; padding: 1rem;
+    }
+    #book-overlay.open { display: flex; }
+    #book-modal {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; width: 100%; max-width: 520px;
+      max-height: 90vh; overflow-y: auto;
+      padding: 2.25rem 2rem; position: relative;
+    }
+    #book-modal .close-btn {
+      position: absolute; top: 1.25rem; right: 1.25rem;
+      background: none; border: none; color: var(--muted);
+      font-size: 1.5rem; cursor: pointer; line-height: 1;
+    }
+    #book-modal .close-btn:hover { color: var(--text); }
+    #book-modal h2 { font-size: 1.25rem; margin-bottom: .3rem; color: var(--text); }
+    #book-modal .book-sub { color: var(--muted); font-size: .875rem; margin-bottom: 1.75rem; }
+    .book-back {
+      background: none; border: none; color: var(--muted); font-size: .82rem;
+      cursor: pointer; padding: 0; margin-bottom: 1.25rem; display: flex;
+      align-items: center; gap: .35rem;
+    }
+    .book-back:hover { color: var(--text); }
+
+    /* step 1 — type cards */
+    .type-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media(max-width:460px) { .type-cards { grid-template-columns: 1fr; } }
+    .type-card {
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 1.5rem 1.25rem; cursor: pointer; text-align: center;
+      background: var(--bg); transition: border-color .2s, background .2s;
+      display: flex; flex-direction: column; gap: .5rem;
+    }
+    .type-card:hover { border-color: var(--cyan); background: rgba(56,189,248,.04); }
+    .type-card .tc-icon { font-size: 1.75rem; }
+    .type-card .tc-title { font-weight: 700; font-size: 1rem; color: var(--text); }
+    .type-card .tc-desc  { font-size: .8rem; color: var(--muted); }
+
+    /* step 2 — payment method cards */
+    .pay-cards { display: flex; flex-direction: column; gap: .85rem; }
+    .pay-card {
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 1.1rem 1.25rem; cursor: pointer;
+      background: var(--bg); transition: border-color .2s, background .2s;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .pay-card:hover { border-color: var(--cyan); background: rgba(56,189,248,.04); }
+    .pay-card .pc-left { display: flex; flex-direction: column; gap: .2rem; }
+    .pay-card .pc-label { font-weight: 700; font-size: .95rem; color: var(--text); }
+    .pay-card .pc-price { font-size: .8rem; color: var(--cyan); }
+    .pay-card .pc-arrow { color: var(--muted); font-size: 1.1rem; flex-shrink: 0; }
+
+    /* step 3 — payment instructions */
+    .pay-info-box {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.25rem; margin-bottom: 1.25rem;
+    }
+    .pay-info-box .pi-row {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: .5rem; padding: .35rem 0; font-size: .88rem;
+    }
+    .pay-info-box .pi-row + .pi-row { border-top: 1px solid var(--border); }
+    .pay-info-box .pi-key { color: var(--muted); white-space: nowrap; }
+    .pay-info-box .pi-val {
+      color: var(--text); text-align: right; word-break: break-all;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .copy-inline {
+      background: none; border: 1px solid var(--border); color: var(--muted);
+      border-radius: 4px; padding: .15rem .45rem; font-size: .72rem;
+      cursor: pointer; white-space: nowrap; flex-shrink: 0;
+    }
+    .copy-inline:hover { border-color: var(--cyan); color: var(--cyan); }
+    .pay-notice {
+      background: rgba(56,189,248,.07); border: 1px solid var(--cyan-dim);
+      border-radius: 8px; padding: .85rem 1rem;
+      font-size: .82rem; color: var(--text); margin-bottom: 1.25rem; line-height: 1.5;
+    }
+    .book-actions { display: flex; gap: .75rem; justify-content: flex-end; }
+
+    /* ── CONTACT MODAL ── */
     #modal-overlay {
       display: none; position: fixed; inset: 0; z-index: 200;
       background: rgba(10, 16, 30, 0.82);
@@ -250,7 +334,7 @@
 <nav>
   <div class="logo">Boyu <span>Tech Strategy</span></div>
   <div class="nav-ctas">
-    <a class="btn btn-outline" href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3nirHONfHOvuOy1M0z1z5hi7QLwGvcMGeODgtDULztNFR2Xkmm3NELS1G-7DaXgjz8FXIpLXxs?gv=true" target="_blank" rel="noopener">Pre-Book a Call</a>
+    <button class="btn btn-outline" onclick="openBooking()">Book a Call</button>
     <button class="btn btn-primary" onclick="openModal()">Get in Touch</button>
   </div>
 </nav>
@@ -269,7 +353,7 @@
       <span class="tag">&#128202; AdTech</span>
     </div>
     <div class="hero-ctas">
-      <a class="btn btn-primary btn-lg" href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3nirHONfHOvuOy1M0z1z5hi7QLwGvcMGeODgtDULztNFR2Xkmm3NELS1G-7DaXgjz8FXIpLXxs?gv=true" target="_blank" rel="noopener">&#128197; Pre-Book a Free Discovery Call</a>
+      <button class="btn btn-primary btn-lg" onclick="openBooking()">&#128197; Book a Free Discovery Call</button>
       <a class="btn btn-outline btn-lg" href="#services">See What We Do</a>
     </div>
   </div>
@@ -455,11 +539,9 @@
     <h2>Let's Build Right.</h2>
     <p>Stop choosing between "Broken" and "Costly."<br>Ready to map your flight?</p>
     <div class="cta-btns">
-      <a class="btn btn-primary btn-lg"
-         href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3nirHONfHOvuOy1M0z1z5hi7QLwGvcMGeODgtDULztNFR2Xkmm3NELS1G-7DaXgjz8FXIpLXxs?gv=true"
-         target="_blank" rel="noopener">
-        &#128197; Pre-Book a Discovery Call
-      </a>
+      <button class="btn btn-primary btn-lg" onclick="openBooking()">
+        &#128197; Book a Call
+      </button>
       <button class="btn btn-outline btn-lg" onclick="openModal()">
         &#9993; Send a Preliminary Request
       </button>
@@ -471,11 +553,52 @@
 <footer>
   <p>&copy; 2025 Boyu Tech Strategy Office &nbsp;&middot;&nbsp;
     <a href="mailto:contact@chuboyu.tw">contact@chuboyu.tw</a> &nbsp;&middot;&nbsp;
-    <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3nirHONfHOvuOy1M0z1z5hi7QLwGvcMGeODgtDULztNFR2Xkmm3NELS1G-7DaXgjz8FXIpLXxs?gv=true" target="_blank" rel="noopener">Book a Call</a>
+    <a href="#" onclick="openBooking();return false;">Book a Call</a>
   </p>
 </footer>
 
-<!-- MODAL -->
+<!-- BOOKING MODAL -->
+<div id="book-overlay" role="dialog" aria-modal="true">
+  <div id="book-modal">
+    <button class="close-btn" onclick="closeBooking()" aria-label="Close">&times;</button>
+
+    <!-- Step 1: Who are you? -->
+    <div id="book-s1">
+      <h2>Book a Call</h2>
+      <p class="book-sub">Is this your first time connecting with us?</p>
+      <div class="type-cards">
+        <div class="type-card" onclick="goS1('free')">
+          <div class="tc-icon">&#127775;</div>
+          <div class="tc-title">First Visit</div>
+          <div class="tc-desc">Free discovery call — no commitment.</div>
+        </div>
+        <div class="type-card" onclick="goS1('paid')">
+          <div class="tc-icon">&#128260;</div>
+          <div class="tc-title">Returning Client</div>
+          <div class="tc-desc">Consultation session — pay to confirm.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Payment method -->
+    <div id="book-s2" hidden>
+      <button class="book-back" onclick="showStep(1)">&#8592; Back</button>
+      <h2>How would you like to pay?</h2>
+      <p class="book-sub" id="s2-sub"></p>
+      <div class="pay-cards" id="pay-cards-list"></div>
+    </div>
+
+    <!-- Step 3: Instructions -->
+    <div id="book-s3" hidden>
+      <button class="book-back" onclick="showStep(2)">&#8592; Back</button>
+      <h2 id="s3-title"></h2>
+      <p class="book-sub" id="s3-sub"></p>
+      <div id="s3-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT MODAL -->
 <div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
   <div id="modal">
     <button class="close-btn" onclick="closeModal()" aria-label="Close">&times;</button>
@@ -574,6 +697,152 @@
 </div>
 
 <script>
+  /* ═══════════════════════════════════════════════
+     BOOKING CONFIG — edit here to manage everything
+     ═══════════════════════════════════════════════ */
+  const BOOKING = {
+    freeUrl: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ3nirHONfHOvuOy1M0z1z5hi7QLwGvcMGeODgtDULztNFR2Xkmm3NELS1G-7DaXgjz8FXIpLXxs?gv=true',
+    paidUrl: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ1Hnt2H7elTyWTDyBO7ftlA4I1y1X0l7afOPftbqevAPmxroHa-qg1YX4zhFGpUrL-LFY9qYXI0?gv=true',
+    methods: {
+      contactToPay: {
+        enabled: true,
+        label:   'Contact to Pay',
+        price:   '$400 USD',
+        note:    'We\'ll confirm a payment method together before locking the slot.',
+      },
+      crypto_USDC: {
+        enabled:  true,
+        label:    'Pay in USDC',
+        price:    '$400 USDC',
+        currency: 'USDC',
+        network:  'Ethereum (ERC-20)',
+        address:  'YOUR_USDC_ADDRESS_HERE',
+      },
+      // ── Add future methods below — set enabled: true to activate ──
+      // crypto_ETH: {
+      //   enabled:  false,
+      //   label:    'Pay in ETH',
+      //   price:    '0.12 ETH',
+      //   currency: 'ETH',
+      //   network:  'Ethereum',
+      //   address:  'YOUR_ETH_ADDRESS_HERE',
+      // },
+      // stripe: {
+      //   enabled: false,
+      //   label:   'Pay by Card',
+      //   price:   '$420 USD',
+      //   url:     'https://buy.stripe.com/...',
+      // },
+    }
+  };
+  /* ═══════════════════════════════════════════════ */
+
+  // ── Booking modal ──
+  let currentStep = 1;
+
+  function openBooking() {
+    showStep(1);
+    document.getElementById('book-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeBooking() {
+    document.getElementById('book-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('book-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeBooking();
+  });
+
+  function showStep(n) {
+    currentStep = n;
+    document.getElementById('book-s1').hidden = n !== 1;
+    document.getElementById('book-s2').hidden = n !== 2;
+    document.getElementById('book-s3').hidden = n !== 3;
+  }
+
+  function goS1(type) {
+    if (type === 'free') {
+      closeBooking();
+      window.open(BOOKING.freeUrl, '_blank', 'noopener');
+      return;
+    }
+    // Build payment method cards from config
+    const enabled = Object.entries(BOOKING.methods).filter(([, m]) => m.enabled);
+    if (enabled.length === 0) {
+      // No methods enabled — fall back to contact
+      closeBooking();
+      openModal();
+      return;
+    }
+    const list = document.getElementById('pay-cards-list');
+    list.innerHTML = enabled.map(([key, m]) => `
+      <div class="pay-card" onclick="goS2('${key}')">
+        <div class="pc-left">
+          <div class="pc-label">${m.label}</div>
+          <div class="pc-price">${m.price}</div>
+        </div>
+        <div class="pc-arrow">&#8250;</div>
+      </div>`).join('');
+    showStep(2);
+  }
+
+  function goS2(key) {
+    const m = BOOKING.methods[key];
+
+    if (key === 'contactToPay') {
+      closeBooking();
+      openModal();
+      return;
+    }
+
+    // Crypto flow
+    document.getElementById('s3-title').textContent = `Pay in ${m.currency}`;
+    document.getElementById('s3-sub').textContent = `Send exactly ${m.price} to the address below, then book your slot.`;
+
+    document.getElementById('s3-body').innerHTML = `
+      <div class="pay-info-box">
+        <div class="pi-row">
+          <span class="pi-key">Amount</span>
+          <span class="pi-val">${m.price}</span>
+        </div>
+        <div class="pi-row">
+          <span class="pi-key">Currency</span>
+          <span class="pi-val">${m.currency}</span>
+        </div>
+        <div class="pi-row">
+          <span class="pi-key">Network</span>
+          <span class="pi-val">${m.network}</span>
+        </div>
+        <div class="pi-row">
+          <span class="pi-key">Address</span>
+          <span class="pi-val">
+            <span id="crypto-addr">${m.address}</span>
+            <button class="copy-inline" onclick="copyAddr('${m.address}', this)">Copy</button>
+          </span>
+        </div>
+      </div>
+      <div class="pay-notice">
+        &#9432;&nbsp; After sending, please include your <strong>transaction hash</strong>
+        in the <em>Notes</em> field when you book below. This is how we confirm your payment.
+      </div>
+      <div class="book-actions">
+        <a class="btn btn-primary" href="${BOOKING.paidUrl}" target="_blank" rel="noopener" onclick="closeBooking()">
+          &#128197; Book Now
+        </a>
+      </div>`;
+
+    showStep(3);
+  }
+
+  function copyAddr(addr, btn) {
+    navigator.clipboard.writeText(addr).then(() => {
+      const orig = btn.textContent;
+      btn.textContent = '✓ Copied';
+      setTimeout(() => { btn.textContent = orig; }, 2000);
+    });
+  }
+
+  // ── Contact modal ──
   function openModal() {
     document.getElementById('modal-overlay').classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -586,7 +855,7 @@
     if (e.target === this) closeModal();
   });
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeModal();
+    if (e.key === 'Escape') { closeModal(); closeBooking(); }
   });
 
   function v(id) { return document.getElementById(id).value.trim(); }
